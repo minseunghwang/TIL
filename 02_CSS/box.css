@@ -33,7 +33,14 @@
    top: 200px;
    left : 200px;
    /* absolute 이용해서 큰 사각형의 가운데 위치시키기 */ 
- } 
+ }
+  
+ #purple { 
+  background-color: purple;
+  position : absolute;
+  top: 100px;
+  left: 100px;
+} 
  
  #blue { 
    background-color: blue; 
@@ -51,16 +58,11 @@
    /* 큰 사각형 내부의 좌측 상단 모서리로 옮기기*/ 
  } 
 
- #purple { 
-  background-color: purple;
-  position : absolute;
-  top: 100px;
-  left: 100px;
-} 
+
 
 #orange { 
   background-color: orange;
   position : absolute;
-  top:-100px;
+  top:- 100px;
   left:100px;
 } 
