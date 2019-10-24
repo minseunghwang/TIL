@@ -20,7 +20,7 @@ def solution(genres, plays):
     print(genre_play_dict)
     print(genres_rank)
     print(zipped)
-    print(genres_rank[0])
+    
 
 
 
