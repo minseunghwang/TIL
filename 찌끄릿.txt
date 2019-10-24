@@ -1,0 +1,36 @@
+2019/10/24
+
+source ~/venv/scripts/activate
+deactivate
+
+텔레그램 토큰
+1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM
+
+요청 URL
+https://api.telegram.org/bot1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM/METHOD_NAME
+
+getME
+https://api.telegram.org/bot1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM/getMe
+
+chat_id
+895558022
+
+ngrok 홈페이지들어가서 다운로드 받고 - 다운받은거 압축풀어서 cmd에서 경로랑맞춰주고 - 명령어 : ngrok http 5000 (5000은 로컬호스트 포트번호인듯?) -
+
+
+https://a122f1dd.ngrok.io
+
+
+이거 4개 해주면 포워딩되는듯
+https://api.telegram.org/bot1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM/
+setWebhook?url=
+1. https://a122f1dd.ngrok.io
+2. https://minseunghwang.pythonanywhere.com
+/1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM
+
+http://minseunghwang.pythonanywhere.com/
+
+[delete]
+https://api.telegram.org/bot1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM/deleteWebhook?url=https://a122f1dd.ngrok.io/1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM
+[set]
+https://api.telegram.org/bot1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM/setWebhook?url=https://minseunghwang.pythonanywhere.com/1045903442:AAE4cezjf_ZZg4TgZMGUrGthLvYb1YzO7fM
