@@ -1,7 +1,6 @@
 import itertools
 
 def solution(numbers):
-    answer = 0
     count = 0
     num = []
     number = list(numbers)
@@ -12,36 +11,23 @@ def solution(numbers):
     numm.sort()
     print(numm)
 
+# 에라토스테네스의 채
+    eratos = [1] * 9999999
+    eratos[0] = 0
+    eratos[1] = 0
+    for i in range(2, int((len(eratos)) ** 0.5)):
+        if eratos[i]:
+            for j in range(i + i, max(numm)+1, i):
+                eratos[j] = 0
     for i in numm:
-        if i < 2:
-            pass
-        elif i == 2:
+        if eratos[i] == 1:
+            print(i)
             count += 1
-        elif i > 2:
-            for j in range(2,i):
-                if i % j == 0:
-                    break
-                elif j == i-1:
-                    print("소수:", i)
-                    count +=1
 
-    print("호이", count)
-                
-    
+    return count
 
-    # eratos = [1] * limit
-    # limit = 999999
-    # for i in range(2,limit):
-    #     if eratos[i]:
-    #         for j in range(i+i, limit):
-    #             eratos[j] = 0
-     
-
-
-
-    return answer
 
 # numbers = "17"
-# numbers = "011"
-numbers = "123"
+numbers = "011"
+# numbers = "0007000"
 solution(numbers)
