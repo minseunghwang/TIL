@@ -21,13 +21,14 @@ def solution(numbers):
                 eratos[j] = 0
     for i in numm:
         if eratos[i] == 1:
-            print(i)
+            # print(i)
             count += 1
 
+    print(count)
     return count
 
 
 # numbers = "17"
-numbers = "011"
-# numbers = "0007000"
+# numbers = "011"
+numbers = "0007000"
 solution(numbers)

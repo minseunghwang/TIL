@@ -16,15 +16,16 @@ def solution(numbers):
 
     for i in range(2,int(len(eratos)**0.5)):
         if eratos[i]:
-            for j in max(a):
+            for j in range(i+i, max(a)+1, i):
                 eratos[j] = 0
-    print()
-
     
-
-    return answer
+    sum = 0
+    for i in a:
+        sum += eratos[i]
+    print(sum)
+    return sum
 
 # numbers = "17"
-numbers = "011"
+numbers = "0007000"
 # numbers = "0007000"
 solution(numbers)
