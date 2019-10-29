@@ -8,6 +8,7 @@ def solution(baseball):
     
     for i in lst[:]:
         print(i)
+    
 
 
     return answer
