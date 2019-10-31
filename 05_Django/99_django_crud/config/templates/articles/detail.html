@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+  <h1 class="text-center"> DETAIL PAGE</h1>
+  <br>
+  <div class="text-center">
+  <p>ID : {{article.pk}}</p>
+  <p>TITLE : {{article.title}}</p>
+  <p>CONTENT : {{article.content}}</p>
+  <p>created_at : {{article.created_at}}</p>
+  <p>updated_at : {{article.updated_at}}</p>
+  <hr>
+  <a href="{% url 'articles:index' %}">[BACK]</a>
+  <a href="{% url 'articles:delete' article.pk %}">[DELETE]</a>
+  <a href="{% url 'articles:edit' article.pk %}">[EDIT]</a>
+  </div>
+{% endblock %}

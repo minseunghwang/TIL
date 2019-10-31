@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1 class="text-center">이것은 장고 복습</h1>
+  <h1 class="text-center">이것은 장고 복습</h1>
+  <a href="/articles/new/">[글쓰긔>.,< ]</a>
+  {% for i in article %}
+    <p>
+      [{{i.pk}}] {{i.title}}
+    </p>
+    <a href="/articles/{{ i.pk }}/">[Detail]</a>
+    <hr>
+  {% endfor %}
 {% endblock %}
