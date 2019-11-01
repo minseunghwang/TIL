@@ -89,13 +89,11 @@ def update(request, movie_pk):
 
 
 # def index(request):
-#     with open ('/Users/student/Downloads/data.csv','r',encoding='UTF-8') as f:
-#         reader = csv.DictReader(f)
-#         # for txt in reader:
-#         #     print(txt)
-#         for c in reader:
-#             for k, v in c.items():
-#                 print(k,v)
+    # with open ('/Users/student/Downloads/data.csv','r',encoding='UTF-8') as f:
+    #     reader = csv.DictReader(f)
+    #     for c in reader:
+    #         for k, v in c.items():
+    #             print(k,v)
 #                 title = 
 #                 title_en = 
 #                 audience = 
