@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Article
+from .models import Article, Comment
 
 # Create your views here.
 
@@ -18,8 +18,8 @@ def create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
-
-        article = Article(title=title, content=content)
+        image = request.FILES.get('image')
+        article = Article(title=title, content=content, image=image)
         article.save()
         return redirect('articles:detail', article.pk)
     # GET요청일 경우 -> 사용자에게 폼 보여주기
@@ -30,7 +30,9 @@ def create(request):
 # 게시글 상세정보를 가져오는 함수
 def detail(request, article_pk):
     article = Article.objects.get(pk=article_pk)
-    context = {'article' : article}
+    comments = article.comment_set.all()
+    context = {'article' : article,
+                'comments' : comments}
     return render(request, 'articles/detail.html',context)
 
 def delete(request, article_pk):
@@ -60,3 +62,27 @@ def update(request, article_pk):
     else:
         context = { 'article' : article }
         return render(request, 'articles/update.html', context)
+
+# 댓글 생성 뷰 함수
+def comments_create(request, article_pk):
+    article = Article.objects.get(pk=article_pk)
+    if request.method == 'POST':
+    #POST 로 들어오면 db에 저장
+        comment = Comment()
+        comment.article = article
+        comment.content = request.POST.get('comment')
+        comment.save()
+
+        return redirect('articles:detail', article_pk)
+
+    #POST방식이 아닌 이상한 방식으로 보내면 그냥 redirect시킨다.
+    else:
+        return redirect('articles:detail', article_pk)
+
+# 댓글 삭제 뷰 함수
+def comments_delete(request, article_pk, comment_pk):
+    article = Article.objects.get(pk=article_pk)
+    if request.method == 'POST':
+        comments = article.comment_set.get(pk=comment_pk)
+        comments.delete()
+    return redirect('articles:detail', article_pk)

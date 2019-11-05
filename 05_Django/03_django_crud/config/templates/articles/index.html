@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 
+{% load static %}
 {% block body%}
+<!-- Static file 저장해서 사진 띄우기 -->
+<div align="center">
+  <img src="{% static 'articles/images/yy.jpg' %}" alt="yy" width="200" height="200">
+</div>
 <h1 class="text-center">Articles</h1>
+
 <a href="{% url 'articles:create' %}">[NEW]</a>
+
 <hr>
 {% for article in articles %}
   <p>

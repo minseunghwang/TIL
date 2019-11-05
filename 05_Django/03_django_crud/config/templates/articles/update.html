@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 
 {% block body %}
+
+
 <h1 class="text-center">EDIT</h1>
-  <form action="{% url 'articles:update' article.pk %}" method="POST">
+<p>업로드 되어있는 사진</p>
+<img src="{{article.image.url}}" alt="{{article.image}}">
+  <form action="{% url 'articles:update' article.pk %}" method="POST" enctype="mulipart/form-data">
   {% csrf_token %}
   TITLE : <input type="text" name="title" value="{{ article.title }}"><br>
   CONTENT : 
   <textarea name="content" cols="17" rows="4">
     {{ article.content }}
   </textarea><br>
+  <label for="image">IMAGE</label>
+  <input type="file" name="image" id="image" accept="image/*">
   <input type="submit">
   </form>
 <hr>

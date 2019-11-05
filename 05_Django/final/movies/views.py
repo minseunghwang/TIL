@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Movie
+from .models import Movie, Comment
 import csv
 
 # Create your views here.
@@ -14,8 +14,10 @@ def index(request):
 
 def detail(request, movie_pk):
     movie = Movie.objects.get(pk=movie_pk)
+    comments = movie.comment_set.all()
     context = {
         'movie' : movie,
+        'comments' : comments,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -70,6 +72,24 @@ def update(request, movie_pk):
 
     return redirect(f'/movies/{movie_pk}')
 
+def comment_create(request, movie_pk):
+    movie = Movie.objects.get(pk=movie_pk)
+    if request.method == 'POST':
+        comment = request.POST.get('comment')
+        comments = Comment(movie = movie, content=comment)
+        comments.save()
+
+        return redirect('movies:detail', movie_pk)
+    else:
+        return redirect('movies:detail', movie_pk)
+
+def comment_delete(request, movie_pk, comment_pk):
+    movie = Movie.objects.get(pk=movie_pk)
+    if request.method == 'POST':
+        comment = movie.comment_set.get(pk=comment_pk)
+        comment.delete()
+
+    return redirect('movies:detail', movie_pk)
 
 
 
