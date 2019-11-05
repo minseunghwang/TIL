@@ -14,5 +14,23 @@
   <a href="{% url 'movies:index' %}">[목록]</a>
   <a href="{% url 'movies:delete' movie.pk%}">[삭제]</a>
   <a href="{% url 'movies:edit' movie.pk %}">[수정]</a>
+
+  <hr>
+
+  <form action="{% url 'movies:comment_create' movie.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="comment">
+    <input type="submit" value="댓글작성">
+  </form>
+  <hr>
+  {% for comment in comments %}
+    <li>
+      멋글 : {{comment.content}}
+      <form action="{% url 'movies:comment_delete' movie.pk comment.pk %}" method="POST" style = 'display: inline; padding-left:30px;'>
+        {% csrf_token %}
+        <input type="submit" value="댓글삭제">
+      </form>
+    </li>
+  {% endfor %}
 {% endblock %}
 

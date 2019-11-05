@@ -1,7 +1,30 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block body %}
 <h1 class="text-center"> DETAIL </h1>
+<!--
+  INPUT type file일 경우 value 값을 지정을 못한다. 당장 해결 방법은 ? 
+  이미지 파일은 바이너리 데이터(하나의 덩어리)로 들어가서, 텍스트를 수정하듯이
+  일부만 수정하는게 불가능하다. 새로운 사진을 덮어씌우는 방식을 사용한다.
+     
+  -> 똑같은 사진을 업로드 하도록 유도. 사진 파일을 업데이트 페이지에 띄워 놓는다.
+-->
+<!--
+  [이미지가 없는 게시글일 경우 조건문 분기]
+
+  1. 샘플 이미지(static)를 넣어두고, 이미지 없는 게시글은 샘플 이미지가 나오도록 한다.
+  2. 이미지 있는 경우에만 이미지를 보여준다.
+
+-->
+{% if article.image %}
+  <img src="{{ article.image.url}} " alt="{{article.image}}">
+{% else %}
+  <p>사진이 읎어요...</p>
+  <img src="{% static 'articles/images/no_images.jpg' %} " alt="no_image">
+{% endif %}
+
+{% comment %} <img src="{{ article.image.url }}" alt="{{ article.image }}"> {% endcomment %}
+
 <p>글 번호 : {{article.pk}}</p>
 <p>글 제목 : {{article.title}}</p>
 <p>글 내용 : {{article.content}}</p>
@@ -15,4 +38,31 @@
   {% csrf_token %}
   <input type="submit" value="DELETE">
 </form>
+<hr>
+<!-- 댓글 작성 Form -->
+<form action ="{% url 'articles:comments_create' article.pk %}" method="POST">
+{% csrf_token %}
+  <input type = "text"  col="20" name="comment">
+  <input type = "submit" value="댓글등록">
+</form>
+<hr>
+총 {{ comments|length }}개의 댓글이 있습니다.<br>
+{% comment %} {{ article.comment_set.all|length }}<br>
+{{ comments.count }} {% endcomment %}
+
+
+{% for comment in comments %}
+  <li>
+    멋글 : {{comment.content}}
+    <form action="{% url 'articles:comments_delete' article.pk comment.pk%}" method="POST" style="display: inline;">
+    {% csrf_token %}
+      <input type="submit" value="댓글삭제">
+    </form>
+  </li>
+
+{% empty %}
+  <p>메시지가 없는데요..?</p>
+{% endfor %}
+
+
 {% endblock %}
