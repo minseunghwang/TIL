@@ -1,28 +1,22 @@
-import itertools
-
 def solution(number, k):
-    answer = []
-    kk = len(number) - k
-    lst = list("".join(number))
-    print(lst)
-    print(max(lst[0:-kk+1]))
-    kk -= 1
-    m=0
-    for i,j in zip(range(len(lst)), lst):
-        print('이거',lst[m:-kk+1])
-        if max(lst[m:-kk+1]) == j:
-            print('여기서젤큰거 : ', (lst[m:-kk+1]))
-            print('kk',kk)
-            answer.append(j)
-            kk = kk - 1
-            m = i
-            print(m)
-            print('답',answer)
-
+    lst = []
+    answer = ""
+    print(number)
     
-    
-    return answer 
+    for i,num in enumerate(number):
+        while len(lst) > 0 and k != 0 and num > lst[-1] :
+            lst.pop()
+            k -= 1
+        if k == 0:
+            lst += list(number[i:])
+            break
+        lst.append(num)
+    lst = lst[:-k] if k > 0 else lst
 
-number="4177252841"
-k=4
+    answer = "".join(lst)
+    print(answer)
+    return answer
+
+number="1924"
+k=3
 solution(number,k)
