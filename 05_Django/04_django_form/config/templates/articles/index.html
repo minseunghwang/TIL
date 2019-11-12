@@ -5,6 +5,7 @@
 <a href="{% url 'articles:create' %}">[NEW}</a>
 {% for article in articles%}
 <hr>
+작성자: {{article.user}}<br>
 제목 : {{article.title}}<br>
 <a href="{% url 'articles:detail' article.pk %}">[자세희]</a>
 <hr>

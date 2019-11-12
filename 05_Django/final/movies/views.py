@@ -1,4 +1,5 @@
-from django.shortcuts import render,redirect
+from django.views.decorators.http import require_POST
+from django.shortcuts import render,redirect, get_object_or_404
 from .models import Movie, Comment
 import csv
 
@@ -41,11 +42,13 @@ def create(request):
 
     return redirect('/movies/')
 
+
+@require_POST
 def delete(request, movie_pk):
     movie = Movie.objects.get(pk=movie_pk)
     movie.delete()
-
     return redirect('/movies/')
+
 
 def edit(request, movie_pk):
     movie = Movie.objects.get(pk=movie_pk)
@@ -54,10 +57,9 @@ def edit(request, movie_pk):
     }
     return render(request, 'movies/edit.html', context)
 
+
 def update(request, movie_pk):
-
     movie = Movie.objects.get(pk=movie_pk)
-
     movie.title = request.POST.get('title')
     movie.title_en = request.POST.get('title_en')
     movie.audience = request.POST.get('audience')
@@ -72,59 +74,21 @@ def update(request, movie_pk):
 
     return redirect(f'/movies/{movie_pk}')
 
+
+@require_POST
 def comment_create(request, movie_pk):
     movie = Movie.objects.get(pk=movie_pk)
-    if request.method == 'POST':
-        comment = request.POST.get('comment')
-        comments = Comment(movie = movie, content=comment)
+    comment_form = Comment(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.movie = movie
         comments.save()
-
-        return redirect('movies:detail', movie_pk)
-    else:
-        return redirect('movies:detail', movie_pk)
-
-def comment_delete(request, movie_pk, comment_pk):
-    movie = Movie.objects.get(pk=movie_pk)
-    if request.method == 'POST':
-        comment = movie.comment_set.get(pk=comment_pk)
-        comment.delete()
-
     return redirect('movies:detail', movie_pk)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def index(request):
-    # with open ('/Users/student/Downloads/data.csv','r',encoding='UTF-8') as f:
-    #     reader = csv.DictReader(f)
-    #     for c in reader:
-    #         for k, v in c.items():
-    #             print(k,v)
-#                 title = 
-#                 title_en = 
-#                 audience = 
-#                 open_date =
-#                 genre = 
-#                 watch_grade = 
-#                 score =
-#                 poster_url = 
-#                 description = 
-
-#         Moive.objects.create(title= ,title_en = ,audience = ,open_date = ,genre = ,watch_grade = ,score = ,poster_url = ,description = )
-        
-
-#     return render(request, 'movies/index.html')
+@require_POST
+def comment_delete(request, movie_pk, comment_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    comment = movie.comment_set.get(pk=comment_pk)
+    comment.delete()
+    return redirect('movies:detail', movie_pk)

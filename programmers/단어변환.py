@@ -14,7 +14,7 @@ def solution(begin, target, words):
     print(q,visited)
 
 
-    while q:
+    # while q:
         
 
 

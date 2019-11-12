@@ -25,9 +25,10 @@ def create(request):
     # POST 요청일 경우 -> 게시글 생성 로직 수행
     if request.method == 'POST':
         form = ArticleForm(request.POST)                # 유효성 검증
-
         if form.is_valid():
-            article = form.save()
+            article = form.save(commit=False)
+            article.user = request.user
+            article.save()            
         return redirect('articles:detail', article.pk)
     else:
         form = ArticleForm()
@@ -50,22 +51,30 @@ def detail(request, article_pk):
 
 @require_POST
 def delete(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
     if request.user.is_authenticated:
-        article = Article.objects.get(pk=article_pk)
-        article.delete()
-    return redirect('/articles/')
+        if request.user == article.user:
+            article = Article.objects.get(pk=article_pk)
+            article.delete()
+        else:
+            return redirect('articles:detail', article.pk)
+    return redirect('articles:index')
+    
 
 
 @login_required
 def update(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
-    if request.method == 'POST':
-        form = ArticleForm(request.POST, instance=article)
-        if form.is_valid():
-            article = form.save()
-            return redirect('articles:detail', article.pk)
+    if request.user == article.user:
+        if request.method == 'POST':
+            form = ArticleForm(request.POST, instance=article)
+            if form.is_valid():
+                article = form.save()
+                return redirect('articles:detail', article.pk)
+        else:
+            form = ArticleForm(instance=article)
     else:
-        form = ArticleForm(instance=article)
+        return redirect('articles:index')
     context = {
         'form': form,
         'article': article,
@@ -75,16 +84,16 @@ def update(request, article_pk):
 
 @require_POST
 def comments_create(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
+    # article = get_object_or_404(Article, pk=article_pk)
     if request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             # save() 메서드 -> 선택 인자 : (기본값) commit=True
-            # DB에 바로 저장되는 것을 막아준다
+            # commit=False 해서 DB에 바로 저장되는 것을 막아준다
             comment = comment_form.save(commit=False)
-            comment.article = article
+            comment.user = request.user
+            comment.article_id = article_pk
             comment.save()
-
     return redirect('articles:detail', article_pk)
 
 @require_POST
@@ -92,6 +101,6 @@ def comments_delete(request, article_pk, comment_pk):
     if request.user.is_authenticated:
         article = get_object_or_404(Article, pk=article_pk)
         comment = article.comment_set.get(pk=comment_pk)
-        comment.delete()
-
+        if request.user == comment.user:
+            comment.delete()
     return redirect('articles:detail', article_pk)
