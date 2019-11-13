@@ -125,3 +125,6 @@ STATIC_URL = '/static/'
 
 
 # LOGIN_URL='/members/login'
+
+# 기본값 : auth.User
+AUTH_USER_MODEL = 'accounts.User'

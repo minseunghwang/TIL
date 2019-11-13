@@ -20,7 +20,6 @@ def solution(begin, target, words):
                     q.append(word)
                     visited[n] = 1
                     answer += 1
-
     return answer
 
 
