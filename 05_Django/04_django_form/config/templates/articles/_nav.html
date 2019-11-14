@@ -24,16 +24,16 @@
           <a href="{% url 'articles:explore' %}" class="btn btn-warning text-light mr-1">전부보기</a>
         </li>
         <li class="nav-item active">
-          <a href="{% url 'accounts:logout' %}" class="btn btn-warning text-light">로그아웃</a>
+          <a href="{% url 'accounts:logout' %}" class="btn btn-warning text-light mr-1">로그아웃</a>
         </li>
         <li class="nav-item active">
-          <a href="{% url 'accounts:profile' user.username %}"  class="btn btn-primary text-light">마이페이지</a>
+          <a href="{% url 'accounts:profile' user.username %}"  class="btn btn-primary text-light mr-1">마이페이지</a>
         </li>
         <li class="nav-item active">
-          <a href="{% url 'accounts:update' %}" class="btn btn-success text-light">정보수정</a>
+          <a href="{% url 'accounts:update' %}" class="btn btn-success text-light mr-1">정보수정</a>
         </li>
         <li class="nav-item active">
-          <a href="{% url 'accounts:change_password' %}" class="btn btn-info text-light">암호변경</a>
+          <a href="{% url 'accounts:change_password' %}" class="btn btn-info text-light mr-1">암호변경</a>
         </li>
           <form action="{% url 'accounts:delete' %}" method="POST" style="display: inline;">
             {% csrf_token %}

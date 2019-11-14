@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load make_link %}
 
 {% block body %}
 {% include 'articles/_follow.html' %}
@@ -6,8 +7,8 @@
 <h1>DEATIL</h1>
 <hr>
 글 번호 : {{article.pk}}<br>
-제목 : {{article.title}}<br>
-컨탠츠 : {{article.content}}<br>
+글 제목 : {{article.title}}<br>
+글 내용  : {{ article|hashtag_link|safe }}<br>
 생성시각 : {{article.created_at}}<br>
 업뎃시각 : {{article.updated_at}}<br>
 <hr>
@@ -38,11 +39,11 @@
 <p><b>댓글 목록({{ comments|length }}개)</b></p>
   {% for comment in comments %}
   <li>
-  [{{ forloop.counter }}]번 댓글 : {{ comment.content}}
+  [{{ forloop.counter }}] {{ comment.user.username }}님의 댓글 : {{ comment.content}}
   {% if comment.user == user %}
     <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method='POST' style="display:inline">
       {% csrf_token %}
-      <input type="submit" value="댓글삭제" class="btn btn-warning" >
+      <input type="submit" value="댓글삭제" class="btn btn-warning m-2" >
     </form>
     {% endif %}
     </li>

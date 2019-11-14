@@ -9,7 +9,8 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">
-          글 제목 : {{article.title}}
+          <p>글제목 : {{ article.title }}</p>
+          <p>작성자 : {{ article.user.username }}</p>
         </h5>
         <p class="card-text">
         <a href="{% url 'articles:like' article.pk %}">
