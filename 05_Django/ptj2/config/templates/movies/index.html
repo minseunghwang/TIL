@@ -27,7 +27,7 @@
             <p class="header-p">Decorations 100% complete here</p>
           </div>
           <div class="col-md-12" style="padding-bottom:60px;">
-
+          <a href="{% url 'movies:create' %}" class="header-h"><h1>[NEW]</h1></a>
             {% for movie in movies %}
             <div class="item active left">
               <div class="col-md-6 col-sm-6 details-text">
