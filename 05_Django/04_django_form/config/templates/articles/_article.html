@@ -25,7 +25,6 @@
           {% endif %}
         </a><br>
           {{ article.like_users.all|length}}명이 이 글을 좋아합니다.<br>
-          {{ article.create_at }}
         </p>
         <a href="{% url 'articles:detail' article.pk %}" class="btn btn-primary">상세보기</a>
       </div>

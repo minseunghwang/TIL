@@ -147,8 +147,10 @@ def like(request, article_pk):
 def follow(request, article_pk, user_pk):
     # 게시글 작성한 유저
     person = get_object_or_404(get_user_model(),pk=user_pk)
+
     # 지금 접속하고있는 유저
     user = request.user
+    
     # 게시글 작성 유저 팔로워 목록에 접속중인 유저가 있을 경우 -> Unfollow
     if person != user:    
         if user in person.followers.all():

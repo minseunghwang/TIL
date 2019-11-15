@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+<img src="{{movies.poster}}" alt="" width=200 heigth=200><br>
+영화제목 : {{movies.title}}<br>
+줄거리 : {{movies.description}}<br>
+생성날짜? : {{movies.created_at}}<br>
+업뎃날짜? : {{movies.updated_at}}<br>
+<a href="{% url 'movies:index' %}">[BACK]</a>
+{% endblock  %}

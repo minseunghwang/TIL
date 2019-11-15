@@ -4,48 +4,52 @@
 {% block body %}
 {% include 'articles/_follow.html' %}
 
-<h1>DEATIL</h1>
+<h1>DETAIL</h1>
 <hr>
-글 번호 : {{article.pk}}<br>
-글 제목 : {{article.title}}<br>
-글 내용  : {{ article|hashtag_link|safe }}<br>
-생성시각 : {{article.created_at}}<br>
-업뎃시각 : {{article.updated_at}}<br>
+<div class="card border-dark mb-3 mx-5" style="max-width: 80rem;">
+  <div class="card-header">{{article.pk}}</div>
+  <div class="card-body text-dark">
+    <h5 class="card-title"> {{article.title}} </h5>
+    <p class="card-text">{{ article|hashtag_link|safe }}</p>
+    <p>최종수정 : {{article.updated_at}}</p>
+  </div>
+</div>
 <hr>
-<a href="{% url 'articles:index' %}" class="btn btn-primary">[BACK]</a>
-
-
+  <p class="text-right pr-5">
+    <a href="{% url 'articles:index' %}" class="btn bg-dark text-white">[BACK]</a>
+  </p>
 {% if request.user == article.user %}
-  <a href="{% url 'articles:update' article.pk %}" class="btn btn-info">[EDIT]</a>
-  <form action="{% url 'articles:delete' article.pk %}" method="POST" style="display:inline"
-    onclick="return confirm('진짜... 삭제 해도... 되갓니...? ')">
-    {% csrf_token %}
-    <input type="submit" value="[DELETE]" class="btn btn-danger">
-  </form>
+<a href="{% url 'articles:update' article.pk %}" class="btn btn-info">[EDIT]</a>
+<form action="{% url 'articles:delete' article.pk %}" method="POST" style="display:inline"
+  onclick="return confirm('혼또니삭제?')">
+  {% csrf_token %}
+  <input type="submit" value="[DELETE]" class="btn btn-danger">
+</form>
 {% endif %}
+<hr>
+
+<p><b>댓글 목록({{ comments|length }}개)</b></p>
+{% for comment in comments %}
+<li>
+  [{{ forloop.counter }}] {{ comment.user.username }}님의 댓글 : {{ comment.content}}
+  {% if comment.user == user %}
+  <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method='POST' style="display:inline">
+    {% csrf_token %}
+    <input type="submit" value="댓글삭제" class="btn btn-warning m-2">
+  </form>
+  {% endif %}
+</li>
+{% endfor %}
 <hr>
 
 {% if user.is_authenticated %}
-  <form action="{% url 'articles:comments_create' article.pk%}" method='POST'>
-    {% csrf_token %}
-    {{ comment_form }}
-    <input type="submit" value="댓글 작성" class="btn btn-success">
-  </form>
+<form action="{% url 'articles:comments_create' article.pk%}" method='POST'>
+  {% csrf_token %}
+  {{ comment_form }}
+  <input type="submit" value="댓글 작성" class="btn btn-success">
+</form>
 {% else %}
-  <a href="{% url 'accounts:login' %}">[댓글 작성하려면 로그인 하세요]</a>
+<a href="{% url 'accounts:login' %}">[댓글 작성하려면 로그인 하세요]</a>
 {% endif %}
-
 <hr>
-<p><b>댓글 목록({{ comments|length }}개)</b></p>
-  {% for comment in comments %}
-  <li>
-  [{{ forloop.counter }}] {{ comment.user.username }}님의 댓글 : {{ comment.content}}
-  {% if comment.user == user %}
-    <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method='POST' style="display:inline">
-      {% csrf_token %}
-      <input type="submit" value="댓글삭제" class="btn btn-warning m-2" >
-    </form>
-    {% endif %}
-    </li>
-{% endfor %}
 {% endblock %}
