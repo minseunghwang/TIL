@@ -37,3 +37,28 @@ class Comment(models.Model):
     # 객체 표현 방식
     def __str__(self):
         return f'{self.content}'
+
+class Mapmap(models.Model):
+    road_num = models.CharField(max_length=100)
+    address = models.CharField(max_length=200)
+    created_at = models.CharField(max_length=30)
+    xposition = models.CharField(max_length=30)
+    yposition = models.CharField(max_length=30)
+
+    class Meta:
+        ordering = ['-pk',]
+
+class CCTV(models.Model):
+    CCTV_MANAGEMENT = models.CharField(max_length=30)
+    CCTV_ADDRESS_NAME = models.CharField(max_length=30)
+    CCTV_LONGITUDE = models.CharField(max_length=20)
+    CCTV_LATITUDE = models.CharField(max_length=20)
+
+    class Meta:
+        ordering = ['pk', ]
+
+    def __str__(self):
+        return f'{self.pk}'
+
+    
+

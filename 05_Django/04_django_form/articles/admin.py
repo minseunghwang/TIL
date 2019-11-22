@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Comment, Hashtag
+from .models import Article, Comment, Hashtag, Mapmap
 
 # Register your models here.
 class ArticleAdmin(admin.ModelAdmin):
@@ -11,6 +11,10 @@ class CommentAdmin(admin.ModelAdmin):
 class HashtagAdmin(admin.ModelAdmin):
     list_display = ('content',)
 
+class MapmapAdmin(admin.ModelAdmin):
+    list_display = ('road_num','address','xposition')
+
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Hashtag, HashtagAdmin)
+admin.site.register(Mapmap, MapmapAdmin)

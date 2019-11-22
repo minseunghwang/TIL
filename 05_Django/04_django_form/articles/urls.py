@@ -3,6 +3,7 @@ from articles import views
 
 app_name = 'articles'
 urlpatterns = [
+    path('mapmap/',views.mapmap, name='mapmap'),
     path('<int:hash_pk>/hashtag/', views.hashtag, name='hashtag'),
     path('explore/', views.explore, name='explore'),
     path('list/', views.list, name='list'),
