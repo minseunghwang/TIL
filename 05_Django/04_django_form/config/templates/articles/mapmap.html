@@ -280,37 +280,47 @@
             if (status === kakao.maps.services.Status.OK) {
               console.log("장소검색이 완료")
               console.log(status)
-              data = [
-              {% for ctv in cctv %}
-              {
-                cctv_mng : "{{ctv.CCTV_MANAGEMENT}}",
-                cctv_add : "{{ctv.CCTV_ADDRESS_NAME}}",
-                x : "{{ctv.CCTV_LATITUDE}}",
-                y : "{{ctv.CCTV_LONGITUDE}}",
-              },
-              {% endfor %}
-              ]
               console.log(data)
+ 
               // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
               displayPlaces(data);
             } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
               // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
+
               console.log("장소검색이 안되고 있어요!" + currCategory)
               console.log(status)
+              console.log(data)          
+              
+              if (currCategory == "CCTV")
+              {
+                data = [
+                  {% for ctv in cctv %}
+                    {
+                      cctv_mng : "{{ctv.CCTV_ADDRESS_NAME}}",
+                      x : "{{ctv.CCTV_LONGITUDE}}",
+                      y : "{{ctv.CCTV_LATITUDE}}",
+                    },
+                  {% endfor %}
+                  ]
+              }
+              
+              else if(currCategory == "SL")
+              {
+                data = [
+                {% for map in strlamp %}
+                  {
+                    address_name : "{{map.STR_ADDRESS_NAME}}",
+                    x : "{{map.STR_LONGITUDE}}",
+                    y : "{{map.STR_LATITUDE}}",
+                  },
+                {% endfor %}
+                  ]
+              }              
+
+              
+
               console.log(data)
 
-              data = [
-              {% for map in mapmap %}
-              {
-                address_name : "{{map.road_num}}",
-                number : "{{map.address}}",
-                created_at : "{{map.created_at}}",
-                x : "{{map.xposition}}",
-                y : "{{map.yposition}}",
-              },
-              {% endfor %}
-              ]
-              console.log(data)
               displayPlaces(data);
             } else if (status === kakao.maps.services.Status.ERROR) {
               // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
@@ -376,16 +386,13 @@
               ' <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.cctv_add +
               '">' + "뭐넣디" + '</a>';
 
-            if (place.cctv_add) {
-              content += '<span title="' + place.cctv_add + '">' + place.cctv_add +'</span>' +
-                '<span class="tel" title="' + place.cctv_mng + '">(관리 : ' + place.cctv_mng + ')</span>';
+            if (place.cctv_mng) {
+              content += '<span class="tel" title="' + place.cctv_mng + '">(주소 : ' + place.cctv_mng + ')</span>';
             } else {
-              content += '<span title="' + place.address_name + '">' + place.address_name + '</span>';
-              content += '<span class="tel">' + place.number + '</span>' + '<span class="created_at">' + place.created_at + '</span>' +
+              content += '<span class="tel">' + place.address_name + '</span>' +
               '</div>' +
               '<div class="after"></div>';
-            }
-            
+            }            
 
             contentNode.innerHTML = content;
             placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
@@ -447,11 +454,11 @@
   <div class="map_wrap">
     <div id="map" style="width:100%; height:100%; position:relative; overflow:hidden; "></div>
     <ul id="category">
-      <li id="BK9" data-order="0">
+      <li id="CCTV" data-order="0">
         <span class="category_bg bank"></span>
         은행? + cctv
       </li>
-      <li id="MT1" data-order="1">
+      <li id="SL" data-order="1">
         <span class="category_bg mart"></span>
         마켓 + 가로등
       </li>

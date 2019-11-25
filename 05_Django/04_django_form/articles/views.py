@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from IPython import embed
 
-from .models import Article, Comment, Hashtag, Mapmap, CCTV
+from .models import Article, Comment, Hashtag, Streetlamp, CCTV
 from .forms import ArticleForm, CommentForm
 
 # Create your views here.
@@ -204,10 +204,10 @@ def hashtag(request, hash_pk):
     return render(request, 'articles/hashtag.html', context)
 
 def mapmap(request):
-    mapmap = Mapmap.objects.all()
+    strlamp = Streetlamp.objects.all()
     cctv = CCTV.objects.all()
     context ={
-        'mapmap' : mapmap,
+        'strlamp' : strlamp,
         'cctv' : cctv,
     }
     return render(request, 'articles/mapmap.html', context)
