@@ -1,5 +1,4 @@
 <html>
-
 <head>
   <meta charset="UTF-8">
   <title>Kakao 지도 시작하기</title>
@@ -233,7 +232,7 @@
           var ps = new kakao.maps.services.Places(map);
 
           // 지도에 idle 이벤트를 등록합니다
-          kakao.maps.event.addListener(map, 'idle', searchPlaces);
+          //kakao.maps.event.addListener(map, 'idle', searchPlaces);
 
           // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다 
           contentNode.className = 'placeinfo_wrap';
@@ -289,13 +288,13 @@
 
               console.log("장소검색이 안되고 있어요!" + currCategory)
               console.log(status)
-              console.log(data)          
-              
+              console.log(data)
               if (currCategory == "CCTV")
               {
                 data = [
                   {% for ctv in cctv %}
                     {
+                      cctv_pk : "{{ctv.id}}",
                       cctv_mng : "{{ctv.CCTV_ADDRESS_NAME}}",
                       x : "{{ctv.CCTV_LONGITUDE}}",
                       y : "{{ctv.CCTV_LATITUDE}}",
@@ -309,17 +308,17 @@
                 data = [
                 {% for map in strlamp %}
                   {
+                    strlamp_pk : "{{map.id}}",
                     address_name : "{{map.STR_ADDRESS_NAME}}",
                     x : "{{map.STR_LONGITUDE}}",
                     y : "{{map.STR_LATITUDE}}",
                   },
                 {% endfor %}
                   ]
-              }              
-
-              
+              }                           
 
               console.log(data)
+              console.log(data[0])
 
               displayPlaces(data);
             } else if (status === kakao.maps.services.Status.ERROR) {
@@ -382,17 +381,15 @@
 
           // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
           function displayPlaceInfo(place) {
-            var content = '<div class="placeinfo">' +
-              ' <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.cctv_add +
-              '">' + "뭐넣디" + '</a>';
 
+            var content = '<div class="placeinfo">'
             if (place.cctv_mng) {
-              content += '<span class="tel" title="' + place.cctv_mng + '">(주소 : ' + place.cctv_mng + ')</span>';
+              content += ' <a class="title" title="' + place.cctv_add +'">' + "CCTV " + place.cctv_pk  + '</a>' + '<span class="tel">'+ place.cctv_mng + '</span>';
+
             } else {
-              content += '<span class="tel">' + place.address_name + '</span>' +
-              '</div>' +
-              '<div class="after"></div>';
+              content += ' <a class="title" title="' + place.cctv_add +'">' + "가로등 " + place.strlamp_pk  + '</a>' + '<span class="tel">' + place.address_name + '</span>';
             }            
+              content += '</div>' + '<div class="after"></div>';
 
             contentNode.innerHTML = content;
             placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));

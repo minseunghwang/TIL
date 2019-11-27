@@ -61,13 +61,6 @@ class CCTV(models.Model):
         return f'{self.pk}'
 
     
-
-
-
-
-
-
-
 # from django.db import models
 # from django.conf import settings
 # # Create your models here.
